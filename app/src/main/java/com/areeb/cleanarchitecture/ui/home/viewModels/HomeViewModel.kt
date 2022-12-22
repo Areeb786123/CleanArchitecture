@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.areeb.cleanarchitecture.data.Resource
 import com.areeb.cleanarchitecture.data.models.PostDto
 import com.areeb.cleanarchitecture.data.repository.home.HomeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -35,8 +36,12 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun setPostResponse(response: List<PostDto>) {
-        _posts.value = response
-        Log.e("postsValue", response.toString())
+    private fun setPostResponse(response: Resource<List<PostDto>>) {
+        if (response is Resource.Success) {
+            response.data.let {
+                _posts.value = it
+                Log.e("postsValue", it.toString())
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.areeb.cleanarchitecture.data.repository.home
 
 import com.areeb.cleanarchitecture.data.RemoteOperations
+import com.areeb.cleanarchitecture.data.Resource
 import com.areeb.cleanarchitecture.data.models.PostDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -11,7 +12,7 @@ import javax.inject.Inject
 class HomeRepository @Inject constructor(
     private val remoteOperations: RemoteOperations
 ) {
-    fun getPhotos(): Flow<List<PostDto>> {
+    fun getPhotos(): Flow<Resource<List<PostDto>>> {
         return flow {
             val photosResponse = remoteOperations.getPhotos()
             emit(photosResponse)

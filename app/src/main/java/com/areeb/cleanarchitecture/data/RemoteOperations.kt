@@ -8,6 +8,8 @@ import javax.inject.Singleton
 @Singleton
 class RemoteOperations @Inject constructor(
     private val homeApi: HomeApi
-) {
-    suspend fun getPhotos(): List<PostDto> = homeApi.getPhotos()
+) : IRemoteOperation, SafeApiCall {
+    override suspend fun getPhotos(): Resource<List<PostDto>> {
+        return safeApiCall { homeApi.getPhotos() }
+    }
 }

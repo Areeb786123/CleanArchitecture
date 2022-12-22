@@ -5,6 +5,6 @@ import retrofit2.http.GET
 
 interface HomeApi {
 
-    @GET("/photos")
+    @GET("photos")
     suspend fun getPhotos(): List<PostDto>
 }
