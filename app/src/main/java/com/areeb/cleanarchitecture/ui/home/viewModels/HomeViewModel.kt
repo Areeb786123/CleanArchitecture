@@ -22,7 +22,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private val _posts = MutableLiveData<List<PostDto>>()
-    private val posts: LiveData<List<PostDto>>
+    val posts: LiveData<List<PostDto>>
         get() = _posts
 
     fun getPosts() {
