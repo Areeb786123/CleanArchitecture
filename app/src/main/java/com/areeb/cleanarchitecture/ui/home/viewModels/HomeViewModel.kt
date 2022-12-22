@@ -5,12 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.areeb.cleanarchitecture.data.Resource
-import com.areeb.cleanarchitecture.data.models.PostResponseDto
+import com.areeb.cleanarchitecture.data.models.PostDto
 import com.areeb.cleanarchitecture.data.repository.home.HomeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,8 +20,8 @@ class HomeViewModel @Inject constructor(
         private const val TAG = "HomeViewModel"
     }
 
-    private val _posts = MutableLiveData<PostResponseDto>()
-    private val posts: LiveData<PostResponseDto>
+    private val _posts = MutableLiveData<List<PostDto>>()
+    private val posts: LiveData<List<PostDto>>
         get() = _posts
 
     fun getPosts() {
@@ -37,12 +35,8 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun setPostResponse(response: Resource<PostResponseDto>) {
-        if (response is Resource.Success) {
-            response.data.let {
-                _posts.value = it
-                Log.e("postsValue", it.toString())
-            }
-        }
+    private fun setPostResponse(response: List<PostDto>) {
+        _posts.value = response
+        Log.e("postsValue", response.toString())
     }
 }
