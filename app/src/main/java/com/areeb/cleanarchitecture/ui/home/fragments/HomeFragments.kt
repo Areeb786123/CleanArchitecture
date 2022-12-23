@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.areeb.cleanarchitecture.data.models.PostDto
@@ -36,7 +35,6 @@ class HomeFragments : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getPosts()
         init()
         setObserver()
     }
@@ -57,7 +55,6 @@ class HomeFragments : Fragment() {
     }
 
     private fun onPostItemClick(post: PostDto) {
-        post.title?.let { DetailActivity.newIntent(requireContext(), it) }
-        Toast.makeText(requireContext(), "${post.title}", Toast.LENGTH_SHORT).show()
+        DetailActivity.newIntent(requireContext(), post.id)
     }
 }

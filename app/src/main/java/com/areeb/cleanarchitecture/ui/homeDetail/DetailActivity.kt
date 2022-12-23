@@ -12,9 +12,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class DetailActivity : MainActivity() {
     companion object {
         private const val TAG = " detailActivity"
-        fun newIntent(context: Context, postDetailTitle: String) {
+        fun newIntent(context: Context, postId: Int?) {
             val intent = Intent(context, DetailActivity::class.java)
-            intent.putExtra("postTitle", postDetailTitle)
+            intent.putExtra("postId", postId)
             context.startActivity(intent)
         }
     }
@@ -25,20 +25,16 @@ class DetailActivity : MainActivity() {
     }
 
     private fun setUpNavigationGraph() {
-        val postTitle = intent.getStringExtra("postTitle")
+        val postId = intent.getIntExtra("postId", 0)
 
         val bundle = Bundle()
-        bundle.putString("postTitle", postTitle)
+        bundle.putInt("postId", postId)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
 
         val navController = navHostFragment.navController
         val navGraph = navController.navInflater.inflate(R.navigation.detail_navigation)
 
-        if (postTitle.isNullOrEmpty()) {
-            navController.graph = navGraph
-        } else {
-            navController.setGraph(navGraph, bundle)
-        }
+        navController.setGraph(navGraph, bundle)
     }
 }

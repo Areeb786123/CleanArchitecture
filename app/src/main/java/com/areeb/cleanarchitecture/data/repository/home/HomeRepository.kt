@@ -18,4 +18,11 @@ class HomeRepository @Inject constructor(
             emit(photosResponse)
         }.flowOn(Dispatchers.IO)
     }
+
+    fun getPhotosById(id: Int): Flow<Resource<PostDto>> {
+        return flow {
+            val photoByIdResponse = remoteOperations.getPhotosById(id)
+            emit(photoByIdResponse)
+        }.flowOn(Dispatchers.IO)
+    }
 }

@@ -21,11 +21,15 @@ class HomeViewModel @Inject constructor(
         private const val TAG = "HomeViewModel"
     }
 
+    init {
+        getPosts()
+    }
+
     private val _posts = MutableLiveData<List<PostDto>>()
     val posts: LiveData<List<PostDto>>
         get() = _posts
 
-    fun getPosts() {
+    private fun getPosts() {
         viewModelScope.launch {
             repository.getPhotos()
                 .catch { exception ->
