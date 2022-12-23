@@ -26,15 +26,23 @@ class DetailViewModel @Inject constructor(
     val photoDetail: LiveData<PostDto>
         get() = _photoDetail
 
+    private val _resourceStatus = MutableLiveData<Resource<Any>?>()
+    val resourceStatus: LiveData<Resource<Any>?>
+        get() = _resourceStatus
+
     fun saveBundlesArguments(bundle: Bundle?) {
         viewModelScope.launch {
             val photoId = bundle?.getInt("postId", 0)
             photoId?.let { getPostDetailsById(it) }
         }
     }
+    fun clearResourceStatus() {
+        _resourceStatus.value = null
+    }
 
     private fun getPostDetailsById(id: Int) {
         viewModelScope.launch {
+            setResourceStatus(Resource.Loading(true))
             repository.getPhotosById(id)
                 .catch {
                     Log.e("error", TAG)
@@ -45,10 +53,17 @@ class DetailViewModel @Inject constructor(
     }
 
     private fun setPhotoByIdResponse(photo: Resource<PostDto>) {
-        if (photo is Resource.Success) {
-            photo.data.let {
-                _photoDetail.value = it
+        viewModelScope.launch {
+            setResourceStatus(Resource.Success(true))
+            if (photo is Resource.Success) {
+                photo.data.let {
+                    _photoDetail.value = it
+                }
             }
         }
+    }
+
+    fun setResourceStatus(resourceStatus: Resource<Any>?) {
+        _resourceStatus.value = resourceStatus
     }
 }

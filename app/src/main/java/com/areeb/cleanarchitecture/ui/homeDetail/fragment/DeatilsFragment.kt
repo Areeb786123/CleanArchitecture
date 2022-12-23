@@ -1,11 +1,13 @@
 package com.areeb.cleanarchitecture.ui.homeDetail.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.areeb.cleanarchitecture.data.Resource
 import com.areeb.cleanarchitecture.data.models.PostDto
 import com.areeb.cleanarchitecture.databinding.FragmentDeatilsBinding
 import com.areeb.cleanarchitecture.ui.homeDetail.viewModel.DetailViewModel
@@ -36,6 +38,30 @@ class DeatilsFragment : Fragment() {
     private fun setObserver() {
         viewModel.photoDetail.observe(viewLifecycleOwner) {
             setDetailsData(it)
+        }
+
+        viewModel.resourceStatus.observe(viewLifecycleOwner) {
+            setResourceStatus(it)
+        }
+    }
+
+    private fun setResourceStatus(resource: Resource<Any>?) {
+        when (resource) {
+            is Resource.Success -> {
+                fragmentBinding.progressBar.visibility = View.GONE
+                viewModel.clearResourceStatus()
+            }
+
+            is Resource.Loading -> {
+                fragmentBinding.progressBar.visibility = View.VISIBLE
+            }
+
+            is Resource.Error -> {
+                fragmentBinding.progressBar.visibility = View.VISIBLE
+            }
+            else -> {
+                Log.e("Tag", "detail Fragment")
+            }
         }
     }
 

@@ -1,6 +1,5 @@
 package com.areeb.cleanarchitecture.data
 
-import android.util.Log
 import com.areeb.cleanarchitecture.data.models.PostDto
 import com.areeb.cleanarchitecture.data.network.network.remote.api.home.HomeApi
 import javax.inject.Inject
