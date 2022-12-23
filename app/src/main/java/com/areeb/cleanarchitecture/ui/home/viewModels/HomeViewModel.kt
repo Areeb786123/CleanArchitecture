@@ -40,7 +40,6 @@ class HomeViewModel @Inject constructor(
         if (response is Resource.Success) {
             response.data.let {
                 _posts.value = it
-                Log.e("postsValue", it.toString())
             }
         }
     }

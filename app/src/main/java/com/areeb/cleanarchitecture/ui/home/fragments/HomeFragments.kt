@@ -4,11 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.areeb.cleanarchitecture.data.models.PostDto
 import com.areeb.cleanarchitecture.databinding.FragmentHomeFragmentsBinding
+import com.areeb.cleanarchitecture.ui.common.ItemListener.ItemClickListener
 import com.areeb.cleanarchitecture.ui.home.adapters.HomeAdapter
 import com.areeb.cleanarchitecture.ui.home.viewModels.HomeViewModel
+import com.areeb.cleanarchitecture.ui.homeDetail.DetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -44,7 +48,16 @@ class HomeFragments : Fragment() {
     }
 
     private fun init() {
-        homeAdapter = HomeAdapter()
+        homeAdapter = HomeAdapter(
+            ItemClickListener { post ->
+                onPostItemClick(post)
+            }
+        )
         fragmentBinding.homeRecyclerView.adapter = homeAdapter
+    }
+
+    private fun onPostItemClick(post: PostDto) {
+        post.title?.let { DetailActivity.newIntent(requireContext(), it) }
+        Toast.makeText(requireContext(), "${post.title}", Toast.LENGTH_SHORT).show()
     }
 }

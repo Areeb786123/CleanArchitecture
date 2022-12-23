@@ -28,6 +28,13 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+        <activity android:name=".ui.homeDetail.DetailActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <nav-graph
+                android:value="@navigation/detail_navigation" />
+        </activity>
     </application>
 
 </manifest>
